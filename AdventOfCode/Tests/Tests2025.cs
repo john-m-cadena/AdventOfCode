@@ -6,13 +6,13 @@ namespace AdventOfCode.Tests;
 public class Tests2025
 {
     [Fact]
-    public static void Test_DayOne()
+    public static async Task Test_DayOne()
     {
         // Arrange
-        var expected = 4;
+        var expected = 3;
 
         // Act
-        var actual = Answers2025.DayOne();
+        var actual = await Answers2025.DayOne("DayOneTest.txt");
 
         // Asert
         Assert.Equal(expected, actual);

@@ -1,2 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using AdventOfCode.Answers;
+
+Console.WriteLine($"Day One: {await Answers2025.DayOne("DayOne.txt")}");
