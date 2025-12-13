@@ -1,5 +1,3 @@
-using Xunit.Sdk;
-
 namespace AdventOfCode.Answers;
 
 public class Answers2025
@@ -44,14 +42,19 @@ public class Answers2025
             for (long i = low; i <= high; i++) 
             {
                 var str = i.ToString();
-                if (str.Length % 2 != 0) { continue; }
-                var midIndex = str.Length / 2;
-                var first = str[.. midIndex];
-                var last = str[midIndex ..];
-                if (first == last) { sum += i; }
+                for (int j = 1; j < str.Length; j++) 
+                {
+                    var part = str[..j];
+                    if (str.Length % part.Length != 0) { continue; }
+                    var split = str.Chunk(part.Length).Select(e => string.Join("", e));
+                    if (split.All(e => e.Equals(part))) 
+                    {
+                        sum += i;
+                        break;
+                    }
+                }
             }
         }
-
         return sum;
     }
 }
