@@ -31,4 +31,27 @@ public class Answers2025
         }
         return sum;
     }
+
+    public static async Task<long> DayTwo(string fileName)
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        long sum = 0;
+
+        var ranges = input[0].Split(",");
+        foreach (var range in ranges) {
+            var bounds = range.Split("-");
+            var (low, high) = (long.Parse(bounds[0]), long.Parse(bounds[1]));
+            for (long i = low; i <= high; i++) 
+            {
+                var str = i.ToString();
+                if (str.Length % 2 != 0) { continue; }
+                var midIndex = str.Length / 2;
+                var first = str[.. midIndex];
+                var last = str[midIndex ..];
+                if (first == last) { sum += i; }
+            }
+        }
+
+        return sum;
+    }
 }
