@@ -30,4 +30,17 @@ public class Tests2025
         // Assert
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public static async Task Test_DayThree()
+    {
+     // Arrange
+        var expected = 357;
+
+        // Act
+        var actual = await Answers2025.DayThree("DayThreeTest.txt");
+
+        // Assert
+        Assert.Equal(expected, actual);   
+    }
 }

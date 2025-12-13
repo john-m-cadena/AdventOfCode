@@ -57,4 +57,31 @@ public class Answers2025
         }
         return sum;
     }
+
+    public static async Task<int> DayThree(string fileName) 
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        int sum = 0;
+
+        foreach(var line in input) {
+            var batteries = line
+                .ToCharArray()
+                .Select(jolt => int.Parse(jolt.ToString()))
+                .ToArray();
+            var max1 = batteries.Max();
+            var index1 = batteries.IndexOf(max1);
+
+            if (index1 == batteries.Length - 1) // Max is last battery
+            {
+                int max2 = batteries[..index1].Max();
+                sum += int.Parse(string.Concat(max2, max1));
+            }
+            else 
+            {
+                int max2 = batteries[(index1 + 1)..].Max();
+                sum += int.Parse(string.Concat(max1, max2));
+            }
+        }
+        return sum;
+    }
 }
