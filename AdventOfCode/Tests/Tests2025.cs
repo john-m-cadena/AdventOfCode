@@ -9,7 +9,7 @@ public class Tests2025
     public static async Task Test_DayOne()
     {
         // Arrange
-        var expected = 3;
+        var expected = 24;
 
         // Act
         var actual = await Answers2025.DayOne("DayOneTest.txt");

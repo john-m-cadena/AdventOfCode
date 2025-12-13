@@ -1,3 +1,5 @@
+using Xunit.Sdk;
+
 namespace AdventOfCode.Answers;
 
 public class Answers2025
@@ -8,23 +10,25 @@ public class Answers2025
         var position = 50;
         int sum = 0;
 
-        for (int i = 0; i < input.Length; i++)
+        foreach (var line in input)
         {
-            var turns = int.Parse(input[i][1..]);
-            turns = input[i].StartsWith('R') ? turns : -1 * turns;
-            position += turns;
-            switch (position)
-            {
-                case < 0:
-                    while (position < 0) { position += 100; }
-                    break;
-                case > 99:
-                    while (position > 99) { position -= 100; }
-                    break;
-            }
-            if (position == 0 || position % 100 == 0) { sum++; }
-        }
+            var turns = int.Parse(line[1..]);
 
+            for (int i = turns; i > 0; i--)
+            {
+                if (line.StartsWith('R'))
+                {
+                    position++;
+                    if (position > 99) { position = 0; }
+                }
+                else
+                {
+                    position--;
+                    if (position < 0) { position = 99; }
+                }
+                if (position == 0) { sum++; }
+            } 
+        }
         return sum;
     }
 }
