@@ -58,30 +58,30 @@ public class Answers2025
         return sum;
     }
 
-    public static async Task<int> DayThree(string fileName) 
+    public static async Task<long> DayThree(string fileName) 
     {
         var input = await Utilities.InputParser.ParseInput(fileName);
-        int sum = 0;
+        long sum = 0;
 
         foreach(var line in input) {
             var batteries = line
                 .ToCharArray()
-                .Select(jolt => int.Parse(jolt.ToString()))
+                .Select(jolt => long.Parse(jolt.ToString()))
                 .ToArray();
-            var max1 = batteries.Max();
-            var index1 = batteries.IndexOf(max1);
-
-            if (index1 == batteries.Length - 1) // Max is last battery
-            {
-                int max2 = batteries[..index1].Max();
-                sum += int.Parse(string.Concat(max2, max1));
-            }
-            else 
-            {
-                int max2 = batteries[(index1 + 1)..].Max();
-                sum += int.Parse(string.Concat(max1, max2));
-            }
+            sum += long.Parse(FindHighestJoltage(batteries, 11, string.Empty));
         }
         return sum;
+    }
+
+    private static string FindHighestJoltage(long[] remaining, int bound, string joltage)
+    {
+        if (bound < 0) { return joltage; }
+        var max = remaining[..(remaining.Length-bound)].Max();
+        var index = remaining.IndexOf(max);
+        return string.Concat(joltage, 
+            FindHighestJoltage(remaining[(index+1)..],
+                bound - 1,
+                max.ToString()
+            ));
     }
 }

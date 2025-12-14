@@ -35,7 +35,7 @@ public class Tests2025
     public static async Task Test_DayThree()
     {
      // Arrange
-        var expected = 357;
+        var expected = 3121910778619;
 
         // Act
         var actual = await Answers2025.DayThree("DayThreeTest.txt");
