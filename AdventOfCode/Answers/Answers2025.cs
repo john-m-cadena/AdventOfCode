@@ -84,4 +84,47 @@ public class Answers2025
                 max.ToString()
             ));
     }
+
+    public static async Task<int> DayFour(string fileName) 
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        var map = Utilities.MatrixUtilities.MapInput(input);
+        var sum = 0;
+
+        for (int row = 0; row < input.Length; row++) 
+        {
+            for (int col = 0; col < input[0].Length; col++)
+            {
+                if (map[row, col] != '@') { continue; }
+                if (CanBeRemoved(map, row, col)) 
+                { 
+                    sum++;
+                    map[row, col] = '.';
+                    row = 0;
+                    col = 0;
+                }
+            }
+        }
+        return sum;
+    }
+
+    private static bool CanBeRemoved(char[,] map, int row, int col) 
+    {
+        var count = 0;
+        var xBound = map.GetLength(0);
+        var yBound = map.GetLength(1);
+
+        for (int x = row - 1; x <= row + 1; x++)
+        {
+            for (int y = col - 1; y <= col + 1; y++)
+            {
+                if (x == row && y == col) { continue; }
+                if (Utilities.MatrixUtilities.IsInBounds(xBound, x, yBound, y)
+                    && map[x,y] == '@') { count++; }
+                if (count > 3) { return false; }
+            }
+
+        }
+        return true;
+    }
 }
