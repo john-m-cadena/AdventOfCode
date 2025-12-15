@@ -127,4 +127,40 @@ public class Answers2025
         }
         return true;
     }
+
+    public static async Task<int> DayFive(string fileName)
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        var sum = 0;
+        var blankIndex = 0;
+
+        for (int i = 0; i < input.Length; i++) 
+        {
+            if (string.IsNullOrEmpty(input[i])) 
+            {
+                blankIndex = i;
+                break;
+            }
+        }
+
+        var ranges = input[..blankIndex];
+        var parsedRanges = ranges.Select(r => r.Split("-").Select(long.Parse).ToList());
+        var freshIds = input[(blankIndex + 1)..].Select(long.Parse).ToList();
+
+        foreach (var fresh in freshIds)
+        {
+            var isValid = false;
+            foreach (var range in parsedRanges)
+            {
+                if (fresh >= range[0] && fresh <= range[1])
+                {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (isValid) { sum++; }
+        }
+
+        return sum;
+    }
 }

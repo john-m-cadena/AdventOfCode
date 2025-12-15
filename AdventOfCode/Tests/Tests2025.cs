@@ -44,16 +44,29 @@ public class Tests2025
         Assert.Equal(expected, actual);   
     }
 
-        [Fact]
+    [Fact]
     public static async Task Test_DayFour()
     {
-     // Arrange
+        // Arrange
         var expected = 43;
 
         // Act
         var actual = await Answers2025.DayFour("DayFourTest.txt");
 
         // Assert
-        Assert.Equal(expected, actual);   
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public static async Task Test_DayFive()
+    {
+        // Arrange
+        var expected = 3;
+
+        // Act
+        var actual = await Answers2025.DayFive("DayFiveTest.txt");
+
+        // Assert
+        Assert.Equal(expected, actual);
     }
 }
