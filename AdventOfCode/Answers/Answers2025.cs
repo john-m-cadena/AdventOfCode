@@ -163,4 +163,29 @@ public class Answers2025
 
         return sum;
     }
+
+    public static async Task<long> DaySix(string fileName) 
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        long sum = 0;
+        var parsed = new List<string[]>();
+        foreach (var line in input)
+        {
+            parsed.Add(line.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        }
+        for (int i = 0; i < parsed[0].Length; i++)
+        {
+            long total;
+            var op = parsed[^1][i];
+            if (op == "+") { total = long.Parse(parsed[0][i]) + long.Parse(parsed[1][i]); }
+            else { total = long.Parse(parsed[0][i]) * long.Parse(parsed[1][i]);}
+            for (int j = 2; j < parsed.Count - 1; j++) 
+            {
+                if (op == "+") { total += long.Parse(parsed[j][i]); }
+                else { total *= long.Parse(parsed[j][i]); }
+            }
+            sum += total;
+        }
+        return sum;
+    }
 }
