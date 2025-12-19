@@ -82,4 +82,17 @@ public class Tests2025
         // Assert
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public static async Task Test_DaySeven()
+    {
+        // Arrange
+        var expected = 21;
+
+        // Act
+        var actual = await Answers2025.DaySeven("DaySevenTest.txt");
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 }

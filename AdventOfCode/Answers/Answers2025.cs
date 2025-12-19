@@ -188,4 +188,27 @@ public class Answers2025
         }
         return sum;
     }
+
+    public static async Task<int> DaySeven(string fileName)
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        var map = Utilities.MatrixUtilities.MapInput(input);
+        var sum = 0;
+
+        var beamIndexes = new List<int> { input[0].IndexOf('S') };
+        for (int i = 1; i < input.Length; i++) 
+        {
+            var temp = new List<int>(beamIndexes);
+            foreach (var index in beamIndexes)
+            {
+                if (map[i,index] != '^') { continue; }
+                sum++;
+                temp.Remove(index);
+                if (index > 0) { temp.Add(index - 1); }
+                if (index < input[0].Length) { temp.Add(index + 1); }
+            }
+            beamIndexes = [.. temp.Distinct()];
+        }
+        return sum;
+    }
 }
