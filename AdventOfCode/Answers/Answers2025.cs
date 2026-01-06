@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace AdventOfCode.Answers;
 
 public class Answers2025
@@ -264,5 +266,28 @@ public class Answers2025
         public int X = x, Y = y, Z = z;
         public static double Distance(Coord3D a, Coord3D b)
             => Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2) + Math.Pow(a.Z - b.Z, 2));
+    }
+
+    public static async Task<long> DayNine(string fileName)
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        var reds = new List<(long x, long y)>();
+        foreach (var line in input)
+        {
+            var split = line.Split(',');
+            reds.Add((long.Parse(split[0]), long.Parse(split[1]))); 
+        }
+        
+        var max = 0L;
+        for (int i = 0; i < reds.Count; i++)
+        {
+            for (int j = i; j < reds.Count; j++)
+            {
+                var area = (long)Math.Abs(reds[i].x - reds[j].x + 1) * Math.Abs(reds[i].y - reds[j].y + 1);
+                max = area > max? area : max;
+            }
+        }
+
+        return max;
     }
 }
