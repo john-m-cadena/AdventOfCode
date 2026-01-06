@@ -211,4 +211,54 @@ public class Answers2025
         }
         return sum;
     }
+
+    public static async Task<int> DayEight(string fileName, int connections)
+    {
+        var input = await Utilities.InputParser.ParseInput(fileName);
+        var coords = new List<Coord3D>();
+        foreach (var line in input)
+        {
+            var parsed = line.Split(',').Select(int.Parse).ToList();
+            coords.Add(new Coord3D(parsed[0], parsed[1], parsed[2]));
+        }
+
+        var circuits = new List<List<int>>();
+        for (int c = 0; c < coords.Count; c++)
+        {
+            circuits.Add([c]);
+        }
+
+        var distances = new List<(int a, int b, double distance)>();
+        for (int i = 0; i < coords.Count; i++)
+        {
+            for (int j = i + 1; j < coords.Count; j++)
+            {
+                distances.Add((i, j, Coord3D.Distance(coords[i], coords[j])));
+            }
+        }
+        var ordered = distances.OrderBy(d => d.distance).ToList();
+
+        for (var k = 0; k < connections; k++)
+        {
+            var lowest = ordered[k];
+            var aSet = circuits.Where(c => c.Contains(lowest.a)).ToList();
+            var aFlat = aSet.SelectMany(list => list);
+            circuits.RemoveAll(c => c.SequenceEqual(aFlat));
+            var bSet = circuits.Where(c => c.Contains(lowest.b)).ToList();
+            var bFlat = bSet.SelectMany(list => list);
+            var union = aFlat.Union(bFlat).ToList(); 
+            circuits.RemoveAll(c => c.SequenceEqual(bFlat));
+            circuits.Add(union);
+        }
+
+        var circuitOrder = circuits.OrderByDescending(c => c.Count).ToList();
+        return circuitOrder[0].Count * circuitOrder[1].Count * circuitOrder[2].Count;
+    }
+
+    public struct Coord3D(int x, int y, int z)
+    {
+        public int X = x, Y = y, Z = z;
+        public static double Distance(Coord3D a, Coord3D b)
+            => Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2) + Math.Pow(a.Z - b.Z, 2));
+    }
 }
