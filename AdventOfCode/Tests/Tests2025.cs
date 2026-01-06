@@ -100,10 +100,10 @@ public class Tests2025
     public static async Task Test_DayEight()
     {
         // Arrange
-        var expected = 40;
+        var expected = 25272;
 
         // Act
-        var actual = await Answers2025.DayEight("DayEightTest.txt", 10);
+        var actual = await Answers2025.DayEight("DayEightTest.txt");
 
         // Assert
         Assert.Equal(expected, actual);

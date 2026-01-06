@@ -212,7 +212,7 @@ public class Answers2025
         return sum;
     }
 
-    public static async Task<int> DayEight(string fileName, int connections)
+    public static async Task<int> DayEight(string fileName)
     {
         var input = await Utilities.InputParser.ParseInput(fileName);
         var coords = new List<Coord3D>();
@@ -238,9 +238,10 @@ public class Answers2025
         }
         var ordered = distances.OrderBy(d => d.distance).ToList();
 
-        for (var k = 0; k < connections; k++)
+        while (circuits.Count > 2)
         {
-            var lowest = ordered[k];
+            var lowest = ordered[0];
+            ordered.Remove(lowest);
             var aSet = circuits.Where(c => c.Contains(lowest.a)).ToList();
             var aFlat = aSet.SelectMany(list => list);
             circuits.RemoveAll(c => c.SequenceEqual(aFlat));
@@ -251,8 +252,11 @@ public class Answers2025
             circuits.Add(union);
         }
 
-        var circuitOrder = circuits.OrderByDescending(c => c.Count).ToList();
-        return circuitOrder[0].Count * circuitOrder[1].Count * circuitOrder[2].Count;
+        var p1 = circuits[0][0];
+        var p2a = ordered.First(l => l.a == p1);
+        var p2b = ordered.First(l => l.b == p1);
+        var p2 = p2a.distance < p2b.distance ? p2a.b : p2b.a;
+        return coords[p1].X * coords[p2].X;
     }
 
     public struct Coord3D(int x, int y, int z)
